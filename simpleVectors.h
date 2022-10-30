@@ -1,5 +1,3 @@
-#include <cmath>
-
 struct sVector2
 {
     float x, y;
