@@ -1,3 +1,4 @@
+#pragma once
 struct sVector2
 {
     float x, y;
