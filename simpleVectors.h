@@ -1,4 +1,7 @@
 #pragma once
+//Simple Vectors written by https://github.com/BigBoyTaco
+
+//A simple vector 2 [Ex: sVector2 myVec2 = sVector2(2.0f, 3.0f);]
 struct sVector2
 {
     float x, y;
