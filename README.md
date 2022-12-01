@@ -1,5 +1,5 @@
 # simpleVetors:
-A simple way to have vectors in your c and c++ projects
+A simple way to have vectors in your c++ projects
 
 # Ussage:
 ![demoImage](demoImage.jpg)
