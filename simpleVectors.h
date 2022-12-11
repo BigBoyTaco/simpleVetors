@@ -3,12 +3,12 @@
 #include <cmath>
 
 // Simple Vectors written by https://github.com/BigBoyTaco
-// v1.0.1
+// v1.0.2
 
-/// CHANGELOG
-/// added ability to get a vector's magnitude
-/// added ability to normalize a vector
-/// added dot product
+/// CHANGELOG:
+/// added cross product to sVector3
+/// added .scale() function to all vector types
+/// added ability to -someVector
 
 // A simple vector 2 [Ex: sVector2 myVec2 = sVector2(2.0f, 3.0f);]
 struct sVector2
@@ -58,6 +58,17 @@ struct sVector2
         normal.x = normal.x / mag;
         normal.y = normal.y / mag;
         return normal;
+    }
+    // points this vector to face another
+    void lookAt(sVector2 look)
+    {
+        sVector2 normal = look.normalize();
+        this->set(normal);
+    }
+    void scale(float a)
+    {
+        this->x *= a;
+        this->y *= a;
     }
 };
 
@@ -115,6 +126,18 @@ struct sVector3
         normal.y = normal.y / mag;
         normal.z = normal.z / mag;
         return normal;
+    }
+    // points this vector to face another
+    void lookAt(sVector3 look)
+    {
+        sVector3 normal = look.normalize();
+        this->set(normal);
+    }
+    void scale(float a)
+    {
+        this->x *= a;
+        this->y *= a;
+        this->z *= a;
     }
 };
 
@@ -181,6 +204,19 @@ struct sVector4
 
         return normal;
     }
+    // points this vector to face another
+    void lookAt(sVector4 look)
+    {
+        sVector4 normal = look.normalize();
+        this->set(normal);
+    }
+    void scale(float a)
+    {
+        this->x *= a;
+        this->y *= a;
+        this->z *= a;
+        this->w *= a;
+    }
 };
 //
 //operations
@@ -225,6 +261,12 @@ const sVector2& operator - (sVector2 a, sVector2 b)
 {
     float x = a.x - b.x;
     float y = a.y - b.y;
+    return sVector2(x, y);
+}
+const sVector2 &operator-(sVector2 a)
+{
+    float x = -1 * a.x;
+    float y = -1 * a.y;
     return sVector2(x, y);
 }
 
@@ -286,6 +328,15 @@ const sVector3& operator - (sVector3 a, sVector3 b)
     float x = a.x - b.x;
     float y = a.y - b.y;
     float z = a.z - b.z;
+    return sVector3(x, y, z);
+}
+
+const sVector3 &operator-(sVector3 a)
+{
+    float x = -1 * a.x;
+    float y = -1 * a.y;
+    float z = -1 * a.z;
+
     return sVector3(x, y, z);
 }
 
@@ -356,6 +407,16 @@ const sVector4& operator - (sVector4 a, sVector4 b)
     return sVector4(x, y, z, w);
 }
 
+const sVector4 &operator-(sVector4 a)
+{
+    float x = -1 * a.x;
+    float y = -1 * a.y;
+    float z = -1 * a.z;
+    float w = -1 * a.w;
+
+    return sVector4(x, y, z, w);
+}
+
 bool operator == (sVector4 a, sVector4 b)
 {
     if(a.x - b.x == 0 && a.y - b.y == 0 && a.z - b.z == 0 && a.w - b.w == 0)
@@ -404,4 +465,17 @@ float dot(sVector4 a, sVector4 b)
 {
     float product = (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w);
     return product;
+}
+
+sVector3 cross(sVector3 a, sVector3 b)
+{
+    sVector3 product = sVector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+    return product;
+}
+
+float distance(sVector2 a, sVector2 b)
+{
+    float d1 = a.x - b.x;
+    float d2 = a.y - b.y;
+    return sqrt(d1 * d1 + d2 * d2);
 }
