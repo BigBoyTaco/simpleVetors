@@ -3,17 +3,21 @@
 #include <cmath>
 
 // Simple Vectors written by https://github.com/BigBoyTaco
-// v1.0.2
+// v1.0.3
 
 /// CHANGELOG:
-/// added cross product to sVector3
-/// added .scale() function to all vector types
-/// added ability to -someVector
+/// added distance() to all vector types
+/// added someVec.clamp() (clamps all values between a range)
+/// added someVec.max() (clamps max value)
+/// added someVec.min() (clamps min value)
+/// added someVec.normalize() and someVec.normalized() making it easier to normalize a vector
+/// other code-cleanliness improvements
 
 // A simple vector 2 [Ex: sVector2 myVec2 = sVector2(2.0f, 3.0f);]
 struct sVector2
 {
     float x, y;
+
 
     void set(float newX, float newY)
     {
@@ -40,18 +44,19 @@ struct sVector2
         this->x = 0;
         this->y = 0;
     }
-    sVector2(float a)
+    explicit sVector2(float a)
     {
         this->x = a;
         this->y = a;
     }
-    float magnitude()
+    [[nodiscard]] float magnitude() const
     {
         // square root of the sum of the squares
         float a = sqrt((x * x) + (y * y));
         return a;
     }
-    sVector2 normalize()
+    // returns the normalized version of current vector
+    [[nodiscard]] sVector2 normalized() const
     {
         sVector2 normal = sVector2(this->x, this->y);
         float mag = normal.magnitude();
@@ -59,16 +64,43 @@ struct sVector2
         normal.y = normal.y / mag;
         return normal;
     }
-    // points this vector to face another
-    void lookAt(sVector2 look)
+    // sets this vector to it's normalized self
+    void normalize()
     {
-        sVector2 normal = look.normalize();
-        this->set(normal);
+        this->set(this->normalized());
     }
     void scale(float a)
     {
         this->x *= a;
         this->y *= a;
+    }
+    void clamp(float min, float max)
+    {
+        if (this->x < min)
+            this->x = min;
+        else if (this->x > max)
+            this->x = max;
+        
+        if (this->y < min)
+            this->y = min;
+        else if (this->y > max)
+            this->y = max;
+    }
+    void max(float max)
+    {
+        if (this->x > max)
+            this->x = max;
+        
+        if (this->y > max)
+            this->y = max;
+    }
+    void min(float min)
+    {
+        if (this->x < min)
+            this->x = min;
+        
+        if (this->y < min)
+            this->y = min;
     }
 };
 
@@ -106,19 +138,20 @@ struct sVector3
         this->y = 0;
         this->z = 0;
     }
-    sVector3(float a)
+    explicit sVector3(float a)
     {
         this->x = a;
         this->y = a;
         this->z = a;
     }
-    float magnitude()
+    [[nodiscard]] float magnitude() const
     {
         // square root of the sum of the squares
         float a = sqrt((x * x) + (y * y) + (z * z));
         return a;
     }
-    sVector3 normalize()
+    // returns the normalized version of this vector
+    [[nodiscard]] sVector3 normalized() const
     {
         sVector3 normal = sVector3(this->x, this->y, this->z);
         float mag = normal.magnitude();
@@ -127,17 +160,55 @@ struct sVector3
         normal.z = normal.z / mag;
         return normal;
     }
-    // points this vector to face another
-    void lookAt(sVector3 look)
+    // sets this vector to it's normalized self
+    void normalize()
     {
-        sVector3 normal = look.normalize();
-        this->set(normal);
+        this->set(this->normalized());
     }
     void scale(float a)
     {
         this->x *= a;
         this->y *= a;
         this->z *= a;
+    }
+    void clamp(float min, float max)
+    {
+        if (this->x < min)
+            this->x = min;
+        else if (this->x > max)
+            this->x = max;
+
+        if (this->y < min)
+            this->y = min;
+        else if (this->y > max)
+            this->y = max;
+        
+        if (this->z < min)
+            this->z = min;
+        else if(this->z > max)
+            this->z = max;
+    }
+    void max(float max)
+    {
+        if (this->x > max)
+            this->x = max;
+
+        if (this->y > max)
+            this->y = max;
+        
+        if (this->z > max)
+            this->z = max;
+    }
+    void min(float min)
+    {
+        if (this->x < min)
+            this->x = min;
+
+        if (this->y < min)
+            this->y = min;
+        
+        if (this->z < min)
+            this->z = min;
     }
 };
 
@@ -180,20 +251,21 @@ struct sVector4
         this->z = 0;
         this->w = 0;
     }
-    sVector4(float a)
+    explicit sVector4(float a)
     {
         this->x = a;
         this->y = a;
         this->z = a;
         this->w = a;
     }
-    float magnitude()
+    [[nodiscard]] float magnitude() const
     {
         // square root of the sum of the squares
         float a = sqrt((x * x) + (y * y) + (z * z) + (w * w));
         return a;
     }
-    sVector4 normalize()
+    // returns the normalized version of this vector
+    [[nodiscard]] sVector4 normalized() const
     {
         sVector4 normal = sVector4(this->x, this->y, this->z, this->w);
         float mag = normal.magnitude();
@@ -204,11 +276,10 @@ struct sVector4
 
         return normal;
     }
-    // points this vector to face another
-    void lookAt(sVector4 look)
+    // sets this vector to it's normalized self
+    void normalize()
     {
-        sVector4 normal = look.normalize();
-        this->set(normal);
+        this->set(this->normalized());
     }
     void scale(float a)
     {
@@ -216,6 +287,56 @@ struct sVector4
         this->y *= a;
         this->z *= a;
         this->w *= a;
+    }
+    void clamp(float min, float max)
+    {
+        if (this->x < min)
+            this->x = min;
+        else if (this->x > max)
+            this->x = max;
+
+        if (this->y < min)
+            this->y = min;
+        else if (this->y > max)
+            this->y = max;
+
+        if (this->z < min)
+            this->z = min;
+        else if (this->z > max)
+            this->z = max;
+        
+        if (this->w < min)
+            this->w = min;
+        else if (this->w > max)
+            this->w = max;
+    }
+    void max(float max)
+    {
+        if (this->x > max)
+            this->x = max;
+
+        if (this->y > max)
+            this->y = max;
+
+        if (this->z > max)
+            this->z = max;
+        
+        if (this->w > max)
+            this->w = max;
+    }
+    void min(float min)
+    {
+        if (this->x < min)
+            this->x = min;
+
+        if (this->y < min)
+            this->y = min;
+
+        if (this->z < min)
+            this->z = min;
+        
+        if (this->w < min)
+            this->w = min;
     }
 };
 //
@@ -309,10 +430,10 @@ const sVector3& operator / (sVector3 a, sVector3 b)
 
 const sVector3& operator / (sVector3 a, float b)
 {
-float x = a.x / b;
-float y = a.y / b;
-float z = a.z / b;
-return sVector3(x, y, z);
+    float x = a.x / b;
+    float y = a.y / b;
+    float z = a.z / b;
+    return sVector3(x, y, z);
 }
 
 const sVector3& operator + (sVector3 a, sVector3 b)
@@ -469,13 +590,34 @@ float dot(sVector4 a, sVector4 b)
 
 sVector3 cross(sVector3 a, sVector3 b)
 {
-    sVector3 product = sVector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+    sVector3 product = sVector3(
+        a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
     return product;
 }
 
+//distance between two points
 float distance(sVector2 a, sVector2 b)
 {
     float d1 = a.x - b.x;
     float d2 = a.y - b.y;
-    return sqrt(d1 * d1 + d2 * d2);
+    return sqrt((d1 * d1) + (d2 * d2));
+}
+
+//distance between two points
+float distance(sVector3 a, sVector3 b)
+{
+    float d1 = a.x - b.x;
+    float d2 = a.y - b.y;
+    float d3 = a.z - b.z;
+    return sqrt((d1 * d1) + (d2 * d2) + (d3 * d3));
+}
+
+// distance between two points
+float distance(sVector4 a, sVector4 b)
+{
+    float d1 = a.x - b.x;
+    float d2 = a.y - b.y;
+    float d3 = a.z - b.z;
+    float d4 = a.w - b.w;
+    return sqrt((d1 * d1) + (d2 * d2) + (d3 * d3) + (d4 * d4));
 }
