@@ -3,15 +3,10 @@
 #include <cmath>
 
 // Simple Vectors written by https://github.com/BigBoyTaco
-// v1.0.3
+// v1.0.4
 
 /// CHANGELOG:
-/// added distance() to all vector types
-/// added someVec.clamp() (clamps all values between a range)
-/// added someVec.max() (clamps max value)
-/// added someVec.min() (clamps min value)
-/// added someVec.normalize() and someVec.normalized() making it easier to normalize a vector
-/// other code-cleanliness improvements
+/// removed the const references from the operator functions
 
 // A simple vector 2 [Ex: sVector2 myVec2 = sVector2(2.0f, 3.0f);]
 struct sVector2
@@ -342,53 +337,53 @@ struct sVector4
 //
 //operations
 //
-const sVector2& operator * (sVector2 a, sVector2 b)
+sVector2 operator * (sVector2 a, sVector2 b)
 {
     float x = a.x * b.x;
     float y = a.y * b.y;
-    return sVector2(x, y);
+    return {x, y};
 }
 
-const sVector2& operator * (sVector2 a, float b)
+sVector2 operator * (sVector2 a, float b)
 {
     float x = a.x * b;
     float y = a.y * b;
 
-    return sVector2(x, y);
+    return {x, y};
 }
 
-const sVector2& operator / (sVector2 a, sVector2 b)
+sVector2 operator / (sVector2 a, sVector2 b)
 {
     float x = a.x / b.x;
     float y = a.y / b.y;
-    return sVector2(x, y);
+    return {x, y};
 }
 
-const sVector2& operator / (sVector2 a, float b)
+sVector2 operator / (sVector2 a, float b)
 {
     float x = a.x / b;
     float y = a.y / b;
-    return sVector2(x, y);
+    return {x, y};
 }
 
-const sVector2& operator + (sVector2 a, sVector2 b)
+sVector2 operator + (sVector2 a, sVector2 b)
 {
     float x = a.x + b.x;
     float y = a.y + b.y;
-    return sVector2(x, y);
+    return {x, y};
 }
 
-const sVector2& operator - (sVector2 a, sVector2 b)
+sVector2 operator - (sVector2 a, sVector2 b)
 {
     float x = a.x - b.x;
     float y = a.y - b.y;
-    return sVector2(x, y);
+    return {x, y};
 }
-const sVector2 &operator-(sVector2 a)
+sVector2 operator-(sVector2 a)
 {
     float x = -1 * a.x;
     float y = -1 * a.y;
-    return sVector2(x, y);
+    return {x, y};
 }
 
 bool operator == (sVector2 a, sVector2 b)
@@ -404,61 +399,61 @@ bool operator != (sVector2 a, sVector2 b)
     return !(a == b);
 }
 
-const sVector3& operator * (sVector3 a, sVector3 b)
+sVector3 operator * (sVector3 a, sVector3 b)
 {
     float x = a.x * b.x;
     float y = a.y * b.y;
     float z = a.z * b.z;
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
-const sVector3& operator * (sVector3 a, float b)
+sVector3 operator * (sVector3 a, float b)
 {
     float x = a.x * b;
     float y = a.y * b;
     float z = a.z * b;
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
-const sVector3& operator / (sVector3 a, sVector3 b)
+sVector3 operator / (sVector3 a, sVector3 b)
 {
     float x = a.x / b.x;
     float y = a.y / b.y;
     float z = a.z / b.z;
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
-const sVector3& operator / (sVector3 a, float b)
+sVector3 operator / (sVector3 a, float b)
 {
     float x = a.x / b;
     float y = a.y / b;
     float z = a.z / b;
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
-const sVector3& operator + (sVector3 a, sVector3 b)
+sVector3 operator + (sVector3 a, sVector3 b)
 {
     float x = a.x + b.x;
     float y = a.y + b.y;
     float z = a.z + b.z;
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
-const sVector3& operator - (sVector3 a, sVector3 b)
+sVector3 operator - (sVector3 a, sVector3 b)
 {
     float x = a.x - b.x;
     float y = a.y - b.y;
     float z = a.z - b.z;
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
-const sVector3 &operator-(sVector3 a)
+sVector3 operator - (sVector3 a)
 {
     float x = -1 * a.x;
     float y = -1 * a.y;
     float z = -1 * a.z;
 
-    return sVector3(x, y, z);
+    return {x, y, z};
 }
 
 bool operator == (sVector3 a, sVector3 b)
@@ -474,68 +469,68 @@ bool operator != (sVector3 a, sVector3 b)
     return !(a == b);
 }
 
-const sVector4& operator * (sVector4 a, sVector4 b)
+sVector4 operator * (sVector4 a, sVector4 b)
 {
     float x = a.x * b.x;
     float y = a.y * b.y;
     float z = a.z * b.z;
     float w = a.w * b.w;
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
-const sVector4& operator * (sVector4 a, float b)
+sVector4 operator * (sVector4 a, float b)
 {
     float x = a.x * b;
     float y = a.y * b;
     float z = a.z * b;
     float w = a.w * b;
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
-const sVector4& operator / (sVector4 a, sVector4 b)
+sVector4 operator / (sVector4 a, sVector4 b)
 {
     float x = a.x / b.x;
     float y = a.y / b.y;
     float z = a.z / b.z;
     float w = a.w / b.w;
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
-const sVector4& operator / (sVector4 a, float b)
+sVector4 operator / (sVector4 a, float b)
 {
     float x = a.x / b;
     float y = a.y / b;
     float z = a.z / b;
     float w = a.w / b;
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
-const sVector4& operator + (sVector4 a, sVector4 b)
+sVector4 operator + (sVector4 a, sVector4 b)
 {
     float x = a.x + b.x;
     float y = a.y + b.y;
     float z = a.z + b.z;
     float w = a.w + b.w;
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
-const sVector4& operator - (sVector4 a, sVector4 b)
+sVector4 operator - (sVector4 a, sVector4 b)
 {
     float x = a.x - b.x;
     float y = a.y - b.y;
     float z = a.z - b.z;
     float w = a.w - b.w;
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
-const sVector4 &operator-(sVector4 a)
+sVector4 operator - (sVector4 a)
 {
     float x = -1 * a.x;
     float y = -1 * a.y;
     float z = -1 * a.z;
     float w = -1 * a.w;
 
-    return sVector4(x, y, z, w);
+    return {x, y, z, w};
 }
 
 bool operator == (sVector4 a, sVector4 b)
@@ -557,30 +552,35 @@ float dot(sVector2 a)
     float product = (a.x * a.x) + (a.y * a.y);
     return product;
 }
+
 // (a.x * b.x) + (a.y * b.y)
 float dot(sVector2 a, sVector2 b)
 {
     float product = (a.x * b.x) + (a.y * b.y);
     return product;
 }
+
 // (a.x * a.x) + (a.y * a.y) + (a.z * a.z)
 float dot(sVector3 a)
 {
     float product = (a.x * a.x) + (a.y * a.y) + (a.z * a.z);
     return product;
 }
+
 // (a.x * b.x )+ (a.y * b.y) + (a.z + b.z)
 float dot(sVector3 a, sVector3 b)
 {
     float product = (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
     return product;
 }
+
 // (a.x * a.x) + (a.y * a.y) + (a.z * a.z) + (a.w * a.w)
 float dot(sVector4 a)
 {
     float product = (a.x * a.x) + (a.y * a.y) + (a.z * a.z) + (a.w * a.w);
     return product;
 }
+
 // (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w)
 float dot(sVector4 a, sVector4 b)
 {
