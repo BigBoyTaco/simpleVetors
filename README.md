@@ -1,4 +1,4 @@
-# simpleVetors:
+# simpleVectors:
 A simple way to have floating point vectors in your c++ projects.
 
 # C Compatibility:
